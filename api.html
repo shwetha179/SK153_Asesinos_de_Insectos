@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script type="text/javascript" src="jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="jquery.exif.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <title>Getting LatLng from a Click Event</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 75%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 75%;
+        margin: 0;
+        padding: 0;
+		position: bottom;  
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var myLatlng = {lat: 18.898682263415942, lng: 77.32877231179923};
+
+        var map = new google.maps.Map(
+            document.getElementById('map'), {zoom: 4, center: myLatlng});
+
+        // Create the initial InfoWindow.
+        var infoWindow = new google.maps.InfoWindow(
+            {content: 'Click the map to get Lat/Lng!', position: myLatlng});
+        infoWindow.open(map);
+
+        // Configure the click listener.
+        map.addListener('click', function(mapsMouseEvent) {
+          // Close the current InfoWindow.
+          infoWindow.close();
+
+          // Create a new InfoWindow.
+          infoWindow = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
+          infoWindow.setContent(mapsMouseEvent.latLng.toString());
+          infoWindow.open(map);
+        });
+      }
+    </script>
+	<form id="myform">
+        <input type="file" id="file" /> </br>
+      </form>
+    <script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA79aouWEHdxIWLInUGH0dyzd4C2uh4B9c&callback=initMap">
+    </script>
+	<script>
+        // checking the exifobject!
+        // var someCallback = function(exifObject) {
+
+        //     // $('#cameraModel').val(exifObject.Model);
+        //     // $('#aperture').val(exifObject.FNumber);
+
+        //     // Uncomment the line below to examine the
+        //     // EXIF object in console to read other values
+        //     console.log(exifObject);
+        //     console.log(exifObject.GPSLatitude);
+        //     console.log(exifObject.GPSLongitude);
+        //     console.log(exifObject.GPSLatitudeRef);
+        //     console.log(exifObject.GPSLongitudeRef);
+        //     console.log(exifObject.GPSLatitude);
+        // }
+
+        // function extracting latitude and longitude data
+        var extractLatAndLon = function (exifObject) {
+              // latitude data
+
+              if(exifObject === false) 
+              alert('Geolocation data not available  Please select from the map!');
+			  
+
+              else {
+              var latDegree = exifObject.GPSLatitude[0];
+              var latMinute = exifObject.GPSLatitude[1];
+              var latSecond = exifObject.GPSLatitude[2];
+              var latDirection = exifObject.GPSLatitudeRef;
+
+              // longitude data
+              var lonDegree = exifObject.GPSLongitude[0];
+              var lonMinute = exifObject.GPSLongitude[1];
+              var lonSecond = exifObject.GPSLongitude[2];
+              var lonDirection = exifObject.GPSLongitude;
+
+              // final latitude and longitude data ! - store these data in firebase
+              var lat = ConvertDMSToDD(latDegree,latMinute,latSecond,latDirection);
+              var long = ConvertDMSToDD(lonDegree,lonMinute,lonSecond,lonDirection);
+
+              var form = document.querySelector('form');
+              var p = document.createElement('p');
+              p.innerText = '';
+              p.innerText = `The uploaded image co-ordinates is latitude: ${lat} and longitude: ${long}`;
+              form.append(p);
+              }
+        }
+
+        // function to convert to correct coordinates
+        var ConvertDMSToDD = (degrees, minutes, seconds, direction) => {
+          var dd = degrees + (minutes/60) + (seconds/3600);
+
+          if(direction === 'S' || direction === 'W') {
+            dd *= -1;
+          }
+
+          return dd;
+        }
+
+      try {
+        // when the file - image is uploaded the change method event is triggered
+        $('#file').change(function() {
+            // $(this).fileExif(someCallback);
+            $(this).fileExif(extractLatAndLon);
+        });
+      }
+      catch (e) {
+        alert(e);
+      }
+
+    </script>
+     </body>
+</html>
