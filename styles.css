@@ -1,0 +1,103 @@
+body
+{
+margin:0;
+padding:0;
+font-family: sans-serif;
+background-image: url("bg2.jpg");
+background-size: cover;
+}
+.box
+{
+    position: absolute;
+    top: 55%;
+    left:300px;
+    transform:translate(-50%,-50%);
+    width:500px;
+    height: 550px;
+    padding:40px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+.box h2
+{
+    margin:0 0 30px;
+    padding:0;
+    color: black;
+    text-align: center;
+}
+.box .inputBox
+{
+    position: relative;
+}
+.box .inputBox input
+{
+    width:100px;
+    padding:10px 0;
+    font-size: 16px;
+    color:#fff;
+    letter-spacing: 1px;
+    margin-bottom: 50px;
+    border:none;
+    border-bottom: 1px solid #fff;
+    outline:none;
+    background: transparent;
+}
+.box .inputBox label
+{
+    position:absolute;
+    top:0;
+    left:0;
+    letter-spacing: 1px;
+    padding:10px 0;
+    font-size: 16px;
+    color:#fff;
+    pointer-events: none;
+    transition: .5s;
+}
+.box .inputBox input:focus ~ label,
+.box .inputBox input:valid ~ label
+{
+    top:-18px;
+    left:0px;
+    color:#03a9f4;
+    font-size: 12px;
+}
+/*.submit
+{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #03a9f4;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 300px;
+  border-radius: 25px;
+}*/
+button
+{
+    border: none;
+    outline: none;
+    width: 55%;
+    height: 40px;
+    background: #1c8adb;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+    margin-top: 30px;
+    margin-left: 100px;
+}
+button:hover
+{
+    cursor: pointer;
+    background: #39dc79;
+    color: #000;
+}
+.logo
+{
+  float: right;
+  margin-top: 100px;
+  margin-right: 250px;
+  background-color: #fff;
+  border-radius: 50%;
+}
