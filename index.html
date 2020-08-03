@@ -1,74 +1,101 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="dropmenu.css">
+<html lang="en">
+  <head>
+    
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Firebase Realtime Database - Client Side</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="./st.css">
 </head>
-<body>
 
-<div class="navbar">
-  <a href="#home" style="margin-left: 5%;">Home</a>
-  <div class="dropdown" style="margin-left: 12%;">
-    <button class="dropbtn">About Us
-    </button>
-    <div class="dropdown-content">
-      <p style="font-weight: bolder;
-      text-align: center;
-      font-style: italic;
-      margin: 5%;
-      font-size: 20px;"> 
-        Bundh Neerikshan is a specialized project for the 
-          monitoring of river embankments,
-        by observing their hydro-metrological data
-      in a regular basis or at times of crisis
-        for forecasting the appropriate
-             precautions to be taken.
-        A health card is generated for the
-         embankments and regular updates
-          are issued by and to the
-       local administration | project authorities |
-         State Governments and other Central 
-        Ministries, based on which, alerts about the
-         forecast are sent to the
-          respective Government Staffs. 
-        </p>
-    </div>
-  </div> 
-  <div class="dropdown" style="margin-left: 35%;">
-    <button class="dropbtn">Map
-    </button>
-    <div class="dropdown-content" style="right:0;width: 40%;
-    height: 70%;">
-      <img src="map1.png" style="width: 100%;
-      height: 100%;"> 
-    </div>
-  </div> 
-  <div class="dropdown" style="margin-left: 15%;">
-    <button class="dropbtn">Contacts
-    </button>
-    <div class="dropdown-content" style="right:0;width: 30%;
-    height: 30%;">
-      <a href="#">Link 1</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
-    </div>
-  </div> 
-</div>
-<div class="logo">
-    <img src="homepagelogo.png" style="width: 100%; margin-top: -55%;">
-<p> <pre>
-        Bundh 
-        Neerikshan 
-</pre></p>
-</div>
-<div id="card-container">
-    <button onclick="window.location.href='user.html';" class="card" ><i class="fa fa-user-circle fa-5x"></i><span class="button-text1">USER</span></button>
-        <button onclick="window.location.href='user.html';" class="card"><i class="fa fa-user-circle fa-5x"></i> <i class="fa fa-star fa-1x"></i><span class="button-text2">ADMIN</span></button> 
-        <button onclick="window.location.href='superadmin.html';" class="card"><i class="fa fa-adn fa-5x"></i><i class="fa fa-cogs fa-1x"></i><span class="button-text3">SUPER ADMIN</span></button> 
-  </div>
+    <!-- JS, Popper.js, and jQuery -->
+    
+  <body>
+  
+    <main>
+    <span class="vl"> </span>
+    <form>
+      <label for="Name">Name</label><br>
+      <input type="text" name="Name" id="Name"><br>
+      <label for="Type of Asset">Type of Asset</label><br>
+      <select class="browser-default" name="Type of Asset" id="Type of Asset">
+  <option value="River">River</option>
+  <option value="Pond">Pond</option>
+  <option value="Lake">Lake</option>
+</select> <br>
+<label for="NameofAsset">Name of Asset</label><br>
+      <input type="text" name="NameofAsset" id="NameofAsset"><br>
+      <label for="Town/Village">Town/Village</label><br>
+      <input type="text" name="Town/Village" id="Town/Village"><br>
+      <label for="District">District</label><br>
+      <input type="text" name="District" id="District"><br>  
+      <label for="State">State</label><br>
+      <input type="text" name="State" id="State"><br>
+      <form>
+      <label > 
+      	<input type ="checkbox" name="issues" value="Erosion" id="issues" />
+      	<span> Erosion </span>
+      </label><br>
+      <label> 
+      	<input type ="checkbox" name="issues" value="Cracks" id="issues" />
+      	<span> Cracks </span>
+      </label><br>
+      <label> 
+      	<input type ="checkbox" name="issues" value="BreakDown" id="issues" />
+      	<span> BreakDown </span>
+      </label><br>
+      <label> 
+      	<input type ="checkbox" name="issues" value="Leaks" id="issues" />
+      	<span> Leaks </span>
+      </label><br>
+      <label> 
+      	<input type ="checkbox" name="issues" value="WaterOverflow" id="issues" />
+      	<span> WaterOverflow </span>
+      </label><br>
+ 
 
+      <label for="Description">Description</label>
+      <input type = "text", name="Description" id="Description">
 
+    
+      
+      
+       
+      
+      
+      <button id="addBtn" onclick= "myFunction()"class="btn waves-effect waves-light">SUBMIT</button>
+
+      
+        
+  </form>
+</main>
+
+            <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+   https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyATOMLkNkqGwP2DudWGRMXbBRQ0b8nAi_Q",
+  authDomain: "form-892f0.firebaseapp.com",
+  databaseURL: "https://form-892f0.firebaseio.com",
+  projectId: "form-892f0",
+  storageBucket: "form-892f0.appspot.com",
+  messagingSenderId: "1088370714909",
+  appId: "1:1088370714909:web:852dd1e95a232b300699f4",
+  measurementId: "G-DX1DNJN1V6"
+};
+      firebase.initializeApp(firebaseConfig);
+</script>
+<script src="./function.js"></script>
 </body>
 </html>
+    
+  <script src="function.js"></script>
+</body>
+</html>  
